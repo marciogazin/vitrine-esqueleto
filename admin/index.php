@@ -1,18 +1,29 @@
 <?php
+    //aqui estamos dando inicio na sessão com session_start();
     session_start();
+    /*require"../config.php"; estamos trazendo o aequivo config.php para 
+    nosso index.php  porque no config.php traz nossa conexão com o banco de dados*/
     require"../config.php";
 ?>
 
-
+<!--doctype html é a versão em atual que esta o html-->
 <!DOCTYPE html>
+<!--Aqui em lang é a linguem em que vai estar nossa aplicação-->
 <html lang="pt-br">
 
 <head>
+    <!--aqui em head irá carregar toda nossa documentação, 
+    css, metas para SEO,fontes,scrips js,jquery,bootstrap,bibliotecas e etc.-->
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADMIN</title>
+    
 
+    <!-- Nesta tag base estamos mostrando onde estamos no caso primeiro vem a 
+    string http:// que é o inicio da URL após vem ao server que é uma varial existente global
+no PHP por fim o script name tbm outra varialvel global do PHP -->
     <base href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["SCRIPT_NAME"]; ?>">
 
     <!-- Bootstrap core JavaScript-->
@@ -65,10 +76,19 @@
     <?php
 
         
-
+        //Puxando o arquico externo funcoes.php
         require "funcoes.php";
 
-        
+        /**Neste if começa dizer que se a sessão de usuario que foi 
+         * criada NÃO estiver acessada ela vai cair na pagina login.php
+         * Se a sessão estiver definida ela vai trazer o arquivo header.php
+         * Depos vai verificar se o parametro (param) que é pego por get
+         * a variavel $page recebe p explode que pega o param e tranforma ela em um array
+         * pasta, pagina,id
+         * e finaliza essa verificação reoganizando o codigo tem tres partes em um string $page = "{$pasta}/{$pagina}";
+         * 
+
+         */
         if(!isset($_SESSION["usuario"])){
             require"paginas/login.php";
         } else{
@@ -83,6 +103,10 @@
 
                 $page = "{$pasta}/{$pagina}";
            }
+           /*Neste if, Depois que passou pelo anterior, verifica se o arquivo pego
+           pela variavel $page existe, caso ela exite vai pegar a funsão require e trazer o arquivo 
+           ja atualizado,se não existir vai trazer uma pagina de erro e depois carrega o arquivo 
+           footer que é o rodapé da pagina geralmente */
            if(file_exists("{$page}.php")){
                 require"{$page}.php";
            }else{
