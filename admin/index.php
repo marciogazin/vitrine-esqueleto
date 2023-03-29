@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require"../config.php";
 ?>
 
@@ -62,10 +63,37 @@
 
 <body id="page-top">
     <?php
+
+        
+
         require "funcoes.php";
 
+        
+        if(!isset($_SESSION["usuario"])){
+            require"paginas/login.php";
+        } else{
 
-        require "paginas/login.php"
+
+            require"header.php";
+           if(isset($_GET["param"])){
+                $page = explode("/",$_GET["param"]);
+                $pasta = $page[0] ?? NULL;
+                $pagina = $page[1] ?? NULL;
+                $id = $page[2] ?? NULL;
+
+                $page = "{$pasta}/{$pagina}";
+           }
+           if(file_exists("{$page}.php")){
+                require"{$page}.php";
+           }else{
+                require"paginas/erro.php";
+           }
+
+
+           require"footer.php";
+        }
+
+
     ?>
 </body>
 
